@@ -1,3 +1,5 @@
+package exercise2;
+
 import java.util.*;
 
 public class MyClass {
@@ -43,9 +45,7 @@ public class MyClass {
                 tmp.add(s);
             }
         }
-        m_strings.clear();
-        m_strings.addAll(tmp);
-        tmp.clear();
+        m_strings = tmp;
     }
     public boolean containsNumber(long number) {
         return set.contains(number);
