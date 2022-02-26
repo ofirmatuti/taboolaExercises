@@ -3,11 +3,11 @@ package exercise3;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Solution1 {
+public class PossibleSolution1 {
 
     private List<String> data = new ArrayList<String>();
 
-    public Solution1(List<String> startingData) {
+    public PossibleSolution1(List<String> startingData) {
         this.data = startingData;
     }
     public List<String> transform(List<StringsTransformer.StringFunction> functions) throws
