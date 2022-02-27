@@ -7,49 +7,47 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /*
-we can use a multi-threaded approach on the foreach method instead of transform method.
-transform method will iterate over functions synchronously.
-foreach method will work with a different thread for different elements in data.
-since different elements are stored in different locations in memory, there is no danger for data corruption.
-this kind of solution is great for scenarios where the transform method is heavy.
+    we can use a multi-threaded approach
+    we will run in different thread for each index in data
+    the thread will apply all the transformations for the given index
+    this kind of solution is great for scenarios where the transform method is lightweight.
  */
-public class PossibleSolution1 {
-
+public class PossibleSolution2 {
     private List<String> data = new ArrayList<String>();
 
-    public PossibleSolution1(List<String> startingData) {
+    public PossibleSolution2(List<String> startingData) {
         this.data = startingData;
     }
 
     public List<String> transform(List<StringsTransformer.StringFunction> functions){
-        for (final StringsTransformer.StringFunction f : functions) {
-            forEach(f);
-        }
-        return data;
-    }
-
-    private void forEach(StringsTransformer.StringFunction function) {
         ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newScheduledThreadPool(10);
+
         for (int i=0; i < data.size(); i++) {
-            executor.execute(new MyRunnable(i, function));
+            executor.execute(new MyRunnable(i, functions));
         }
+
         executor.shutdown();
         try {
             executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
         } catch (InterruptedException e) {
             System.out.println("interrupted while waiting for all subtask to run");
         }
+
+        return data;
     }
+
     public class MyRunnable implements Runnable {
         Integer index;
-        StringsTransformer.StringFunction function;
-        public MyRunnable(Integer index, StringsTransformer.StringFunction function) {
+        List<StringsTransformer.StringFunction> functions;
+        public MyRunnable(Integer index, List<StringsTransformer.StringFunction> functions) {
             this.index = index;
-            this.function = function;
+            this.functions = functions;
         }
 
         public void run() {
-            data.set(index , function.transform(data.get(index)));
+            for (final StringsTransformer.StringFunction f : functions) {
+                data.set(index , f.transform(data.get(index)));
+            }
         }
     }
     public static interface StringFunction {

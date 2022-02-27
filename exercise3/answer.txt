@@ -1,14 +1,13 @@
-There are 2 problems with multi-threading approach across functions:
+There are 3 problems with multi-threading approach across functions:
 The first problem:
-    we don't know anything about the functions, the order of executions might be important.
-    meaning that we might have 2 functions f,g which sustains f(g(x)) != g(f(x)) .
+    we don't have any guarantee that we are dealing with commutative functions.
+    https://www.mathwords.com/c/commutative.htm
+    it means that the order of executing the functions might be important.
 The second problem:
-    the data object is not thread safe, we might access an element with 2 different threads and corrupt the element.
+    the data object is not thread safe, we might access an element from 2 different threads and deal with data corruption.
+The third problem:
+    we do not control on the number of threads that being created. we might deal with heavy context switching.
 
 
 One possible solution - implemented in Solution1.java
-we can use a multi-threaded approach on the foreach method instead of transform method.
-transform method will iterate over functions synchronously.
-foreach method will create different thread for different elements in data.
-since different elements are stored in different locations in memory, there is no danger to corrupt the data.
-this kind of solution is great for scenarios where the transform method is heavy.
+Second possible solution - implemented in Solution2.java
