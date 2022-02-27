@@ -17,8 +17,4 @@ Based on that information we can choose eviction policy.
 
 eviction policy is the policy by which values get evicted or removed from the cache.
 
-Our cache interface should offer 2 different apis:
- V get(K key)
- void set(K key, V val)
-
 I would like to implement LRU cache.

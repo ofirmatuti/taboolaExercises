@@ -2,10 +2,8 @@ package exercise4;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-/*
-    not a thread safe solution
- */
-public class LRUCache extends LinkedHashMap<Integer, Integer> implements ICache<Integer,Integer> {
+
+public class LRUCache<K,V> extends LinkedHashMap<K,V> implements ICache<K,V> {
 
     private int capacity;
 
@@ -15,17 +13,17 @@ public class LRUCache extends LinkedHashMap<Integer, Integer> implements ICache<
     }
 
     @Override
-    protected boolean removeEldestEntry(Map.Entry<Integer, Integer> eldest) {
+    protected boolean removeEldestEntry(Map.Entry eldest) {
         return size() > capacity;
     }
 
     @Override
-    public Integer cacheGet(Integer key) {
-        return getOrDefault(key, -1);
+    public V cacheGet(K key) {
+        return getOrDefault(key, null);
     }
 
     @Override
-    public void cacheSet(Integer key, Integer value) {
-        put(key, value); // invokes removeEldestEntry
+    public void cacheSet(K key, V value) {
+        put(key, value);
     }
 }
