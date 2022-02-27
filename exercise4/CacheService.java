@@ -1,29 +1,27 @@
 package exercise4;
 
-import java.util.Random;
-
 public class CacheService {
 
-    ICache<Integer,Integer> cache;
+    ICache<Integer,String> cache;
     int capacity;
 
     public CacheService(int capacity) {
         this.capacity = capacity;
-        cache = new LRUCache<Integer,Integer>(capacity);
+        cache = new LRUCache<Integer,String>(capacity);
     }
 
-    public Integer getData(Integer element) throws InterruptedException {
-        Integer res = cache.cacheGet(element);
-        if(res == null){
+    public String getData(Integer key) throws InterruptedException {
+        String data = cache.cacheGet(key);
+        if(data == null){
             System.out.println("executing a network request to the database");
             Thread.sleep(200);
-            res = new Random().nextInt(1000);
-            setData(element, res);
+            data = "some record from the database";
+            setData(key, data);
         }
-        return res;
+        return data;
     }
 
-    private void setData(Integer key, Integer val){
+    private void setData(Integer key, String val){
         cache.cacheSet(key, val);
     }
 }
