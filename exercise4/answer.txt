@@ -1,0 +1,24 @@
+Caches are often used to store responses to network requests such as querying a database.
+The cache is stored in a piece of hardware that retrieves data faster.
+In one hand we want to maximize cache hits (when requested data is found in the cache)
+In the other hand, data in the cache might become stale if the main source of truth for that data gets updated and the cache doesn't.
+
+Taboola's question:
+- What features do you think such a cache should offer?
+- How, in general lines, would you implement it?
+
+Ideally, I would ask for more information in order to make decisions.
+There is a tradeoff between latency and accuracy/consistency.
+we need to figure out:
+- how important is to retrieve consistent/non-stale data.
+- how important is latency in our caching service.
+
+Based on that information we can choose eviction policy.
+
+eviction policy is the policy by which values get evicted or removed from the cache.
+
+Our cache interface should offer 2 different apis:
+ V get(K key)
+ void set(K key, V val)
+
+I would like to implement LRU cache.
