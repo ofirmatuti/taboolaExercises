@@ -10,11 +10,16 @@ public class CacheService {
         cache = new LRUCache<Integer,String>(capacity);
     }
 
-    public String getData(Integer key) throws InterruptedException {
+    public String getData(Integer key) {
         String data = cache.cacheGet(key);
         if(data == null){
             System.out.println("executing a network request to the database");
-            Thread.sleep(200);
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                System.out.println("could not read from the database");
+                return null;
+            }
             data = "some record from the database";
             setData(key, data);
         }

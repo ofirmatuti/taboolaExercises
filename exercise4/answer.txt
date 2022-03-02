@@ -3,18 +3,17 @@ The cache is stored in a piece of hardware that retrieves data faster.
 In one hand we want to maximize cache hits (when requested data is found in the cache)
 In the other hand, data in the cache might become stale if the main source of truth for that data gets updated and the cache doesn't.
 
-Taboola's question:
+
+The question:
 - What features do you think such a cache should offer?
 - How, in general lines, would you implement it?
 
 Ideally, I would ask for more information in order to make decisions.
-There is a tradeoff between latency and accuracy/consistency.
+There is a tradeoff between latency and consistency.
 we need to figure out:
 - how important is to retrieve consistent/non-stale data.
 - how important is latency in our caching service.
 
-Based on that information we can choose eviction policy.
+Based on that information we can choose caching methods.
 
-eviction policy is the policy by which values get evicted or removed from the cache.
-
-I would like to implement LRU cache.
+I would like to implement LRU cache eviction policy.

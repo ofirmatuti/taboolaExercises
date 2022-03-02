@@ -1,0 +1,18 @@
+1.
+I would offer not removing data from the cache with a ttl,
+But removing data only when reaching a size that is considered as limit.
+We can still remove the Least recently used record in the cache with the new approach.
+
+2.
+The staleness happens when the database is the single source of truth and the cache doesn't.
+Write operations stores the data in the database directly without making sure that the cache is updated.
+In LRU - the state of the cache depends on the get requests.
+In order to guarantee the consistency of the data, write through comes into play.
+In write-through, data is simultaneously updated to cache and memory.
+Write through is often used when the system is not write heavy.
+
+Regarding Cassandra database -
+Cassandra is an open source nosql that performs well for high write throughput systems.
+Write through is not fit for this kind of systems.
+I never worked with cassandra before, but with fast research it seems like it offers its own solutions for caching.
+We can implement one solution that fits our needs, and even get rid of our caching resource in the system.

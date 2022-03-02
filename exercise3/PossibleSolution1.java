@@ -30,14 +30,19 @@ public class PossibleSolution1 {
 
     private void forEach(StringsTransformer.StringFunction function) {
         ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newScheduledThreadPool(10);
+        boolean terminated = false;
         for (int i=0; i < data.size(); i++) {
             executor.execute(new MyRunnable(i, function));
         }
         executor.shutdown();
         try {
-            executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+            terminated = executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
         } catch (InterruptedException e) {
             System.out.println("interrupted while waiting for all subtask to run");
+        }
+        if(!terminated){
+            //TODO create timeout exception
+            System.out.println("timeout - did not finish executing the functions");
         }
     }
     public class MyRunnable implements Runnable {
